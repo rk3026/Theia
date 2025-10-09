@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//d/Desktop/CPT_S 484/Theia/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
