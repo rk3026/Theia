@@ -745,38 +745,38 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   child: Container(
                     width: double.infinity,
                     color: Colors.orange.shade300,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.navigation,
-                          size: 120,
+                          size: 80,
                           color: Colors.orange.shade900,
                           semanticLabel: 'Navigating',
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 12),
                         Text(
                           'Continue straight',
                           style: TextStyle(
-                            fontSize: 36,
+                            fontSize: 28,
                             fontWeight: FontWeight.bold,
                             color: Colors.orange.shade900,
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 8),
                         Text(
                           '50 feet',
                           style: TextStyle(
-                            fontSize: 44,
+                            fontSize: 32,
                             fontWeight: FontWeight.bold,
                             color: Colors.orange.shade700,
                           ),
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 12),
                         Container(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             color: Colors.red.shade100,
                             borderRadius: BorderRadius.circular(12),
@@ -784,13 +784,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.warning, color: Colors.red.shade700, size: 28),
-                              const SizedBox(width: 10),
+                              Icon(Icons.warning, color: Colors.red.shade700, size: 24),
+                              const SizedBox(width: 8),
                               Flexible(
                                 child: Text(
                                   'Three-finger triple tap for Emergency',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     color: Colors.red.shade700,
                                     fontWeight: FontWeight.bold,
                                   ),
