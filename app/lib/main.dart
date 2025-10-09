@@ -123,9 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
       body: SafeArea(
-        child: MultiFingerGestureDetector(
-          onThreeFingerTripleTap: _navigateToEmergency,
-          child: Column(
+        child: Stack(
+          children: [
+            MultiFingerGestureDetector(
+              onThreeFingerTripleTap: _navigateToEmergency,
+              child: Column(
             children: [
               // Top Half - Voice Command
               Expanded(
@@ -298,7 +300,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ],
-          ),
+              ),
+            ),
+            // Debug button (only visible in debug mode)
+            Positioned(
+              top: 10,
+              right: 10,
+              child: IconButton(
+                icon: Icon(Icons.emergency, color: Colors.red.shade700, size: 32),
+                onPressed: _navigateToEmergency,
+                tooltip: 'Debug: Emergency',
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -379,10 +393,12 @@ class _RouteSelectScreenState extends State<RouteSelectScreen> {
     return Scaffold(
       backgroundColor: Colors.green.shade50,
       body: SafeArea(
-        child: MultiFingerGestureDetector(
-          onTwoFingerDoubleTap: _goBack,
-          onThreeFingerTripleTap: _navigateToEmergency,
-          child: Column(
+        child: Stack(
+          children: [
+            MultiFingerGestureDetector(
+              onTwoFingerDoubleTap: _goBack,
+              onThreeFingerTripleTap: _navigateToEmergency,
+              child: Column(
             children: [
               // Top Half - Voice Command
               Expanded(
@@ -471,21 +487,21 @@ class _RouteSelectScreenState extends State<RouteSelectScreen> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 20),
+                          padding: const EdgeInsets.only(top: 12),
                           child: Text(
                             'Route Scroller',
                             style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 22,
                               fontWeight: FontWeight.bold,
                               color: Colors.green.shade900,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 8),
                         Text(
                           'Swipe left/right',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             color: Colors.green.shade800,
                           ),
                         ),
@@ -503,44 +519,51 @@ class _RouteSelectScreenState extends State<RouteSelectScreen> {
                             itemBuilder: (context, index) {
                               final route = _routes[index];
                               return Padding(
-                                padding: const EdgeInsets.all(32.0),
+                                padding: const EdgeInsets.all(16.0),
                                 child: Card(
                                   elevation: 8,
                                   color: Colors.white,
-                                  child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Icon(
                                           Icons.route,
-                                          size: 100,
+                                          size: 50,
                                           color: Colors.green.shade700,
                                         ),
-                                        const SizedBox(height: 24),
+                                        const SizedBox(height: 8),
                                         Text(
                                           route['name']!,
                                           style: const TextStyle(
-                                            fontSize: 32,
+                                            fontSize: 22,
                                             fontWeight: FontWeight.bold,
                                           ),
                                           textAlign: TextAlign.center,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        const SizedBox(height: 16),
+                                        const SizedBox(height: 6),
                                         Text(
                                           route['time']!,
                                           style: TextStyle(
-                                            fontSize: 36,
+                                            fontSize: 26,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.green.shade700,
                                           ),
                                         ),
-                                        const SizedBox(height: 12),
+                                        const SizedBox(height: 4),
                                         Text(
                                           route['description']!,
                                           style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 14,
                                             color: Colors.grey.shade700,
                                           ),
+                                          textAlign: TextAlign.center,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ],
                                     ),
@@ -552,15 +575,15 @@ class _RouteSelectScreenState extends State<RouteSelectScreen> {
                         ),
                         // Page indicator
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
+                          padding: const EdgeInsets.only(bottom: 12),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(
                               _routes.length,
                               (index) => Container(
                                 margin: const EdgeInsets.symmetric(horizontal: 4),
-                                width: 12,
-                                height: 12,
+                                width: 10,
+                                height: 10,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: _currentRoute == index
@@ -577,7 +600,28 @@ class _RouteSelectScreenState extends State<RouteSelectScreen> {
                 ),
               ),
             ],
-          ),
+              ),
+            ),
+            // Debug buttons
+            Positioned(
+              top: 10,
+              right: 10,
+              child: IconButton(
+                icon: Icon(Icons.emergency, color: Colors.red.shade700, size: 32),
+                onPressed: _navigateToEmergency,
+                tooltip: 'Debug: Emergency',
+              ),
+            ),
+            Positioned(
+              top: 10,
+              left: 10,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.green.shade900, size: 32),
+                onPressed: _goBack,
+                tooltip: 'Debug: Go Back',
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -638,11 +682,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
     return Scaffold(
       backgroundColor: Colors.orange.shade50,
       body: SafeArea(
-        child: MultiFingerGestureDetector(
-          onTwoFingerDoubleTap: _goBack,
-          onThreeFingerTripleTap: _navigateToEmergency,
-          child: Column(
-            children: [
+        child: Stack(
+          children: [
+            MultiFingerGestureDetector(
+              onTwoFingerDoubleTap: _goBack,
+              onThreeFingerTripleTap: _navigateToEmergency,
+              child: Column(
+                children: [
               // Top Half - Voice Command
               Expanded(
                 child: GestureDetector(
@@ -699,38 +745,38 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   child: Container(
                     width: double.infinity,
                     color: Colors.orange.shade300,
-                    padding: const EdgeInsets.all(32),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.navigation,
-                          size: 140,
+                          size: 120,
                           color: Colors.orange.shade900,
                           semanticLabel: 'Navigating',
                         ),
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 24),
                         Text(
                           'Continue straight',
                           style: TextStyle(
-                            fontSize: 40,
+                            fontSize: 36,
                             fontWeight: FontWeight.bold,
                             color: Colors.orange.shade900,
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 20),
                         Text(
                           '50 feet',
                           style: TextStyle(
-                            fontSize: 48,
+                            fontSize: 44,
                             fontWeight: FontWeight.bold,
                             color: Colors.orange.shade700,
                           ),
                         ),
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 24),
                         Container(
-                          padding: const EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: Colors.red.shade100,
                             borderRadius: BorderRadius.circular(12),
@@ -738,14 +784,16 @@ class _NavigationScreenState extends State<NavigationScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.warning, color: Colors.red.shade700, size: 32),
-                              const SizedBox(width: 12),
-                              Text(
-                                'Three-finger triple tap for Emergency',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.red.shade700,
-                                  fontWeight: FontWeight.bold,
+                              Icon(Icons.warning, color: Colors.red.shade700, size: 28),
+                              const SizedBox(width: 10),
+                              Flexible(
+                                child: Text(
+                                  'Three-finger triple tap for Emergency',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.red.shade700,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ],
@@ -756,8 +804,29 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   ),
                 ),
               ),
-            ],
-          ),
+                ],
+              ),
+            ),
+            // Debug buttons
+            Positioned(
+              top: 10,
+              right: 10,
+              child: IconButton(
+                icon: Icon(Icons.emergency, color: Colors.red.shade700, size: 32),
+                onPressed: _navigateToEmergency,
+                tooltip: 'Debug: Emergency',
+              ),
+            ),
+            Positioned(
+              top: 10,
+              left: 10,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.orange.shade900, size: 32),
+                onPressed: _goBack,
+                tooltip: 'Debug: Go Back',
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -937,11 +1006,10 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
     );
   }
 
-  void _announceScreen(BuildContext context, String message) {
+   void _announceScreen(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message, style: const TextStyle(fontSize: 18)),
-        backgroundColor: Colors.white,
         duration: const Duration(seconds: 2),
       ),
     );
