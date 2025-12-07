@@ -1,0 +1,34 @@
+@startuml package_structure
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+package app {
+  package lib {
+    [main.dart]
+    package screens {
+      [HomeScreen]
+      [RouteSelectScreen]
+      [NavigationScreen]
+      [EmergencyScreen]
+    }
+    package widgets {
+      [MultiFingerGestureDetector]
+    }
+    package services {
+      note as N1
+      Planned services per Docs:
+      - voice_service.dart
+      - sensor_service.dart
+      - notification_service.dart
+      - storage_service.dart
+      - trace_service.dart
+      end note
+    }
+  }
+}
+
+[main.dart] --> screens
+[main.dart] --> widgets
+screens ..> widgets : uses
+
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+package "THEIA Flutter App" {
+  [TheiaApp] <<component>>
+  [HomeScreen] <<component>>
+  [RouteSelectScreen] <<component>>
+  [NavigationScreen] <<component>>
+  [EmergencyScreen] <<component>>
+  [MultiFingerGestureDetector] <<component>>
+}
+
+[TheiaApp] --> [HomeScreen] : home()
+[HomeScreen] --> [RouteSelectScreen] : select destination
+[RouteSelectScreen] --> [NavigationScreen] : select route
+[NavigationScreen] --> [EmergencyScreen] : 3-finger triple tap
+[HomeScreen] --> [EmergencyScreen] : 3-finger triple tap
+[RouteSelectScreen] --> [EmergencyScreen] : 3-finger triple tap
+
+[HomeScreen] ..> [MultiFingerGestureDetector]
+[RouteSelectScreen] ..> [MultiFingerGestureDetector]
+[NavigationScreen] ..> [MultiFingerGestureDetector]
+
+note right of MultiFingerGestureDetector
+Custom pointer listener:
+- Two-finger double tap => back
+- Three-finger triple tap => emergency
+end note
+
+@enduml

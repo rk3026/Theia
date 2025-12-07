@@ -1,0 +1,91 @@
+# Flutter/Dart/Pub related
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+
+# Ongoing builds
+*.dart.js
+*.info.json
+*.js.deps
+*.js.map
+*.dill
+*.tmp
+*.log
+*.lock
+*.snapshot
+*.swp
+
+# iOS
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/build/
+ios/Flutter/Flutter.podspec
+
+# Android
+android/.gradle/
+android/captures/
+android/gradle/
+android/build/
+android/app/build/
+
+# macOS
+macos/Flutter/ephemeral/
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/build/
+
+# Linux
+linux/flutter/ephemeral/
+linux/build/
+
+# Windows
+windows/flutter/ephemeral/
+windows/build/
+
+# Web
+web/generated/
+
+# VS Code
+.vscode/
+
+# IntelliJ related
+*.iml
+.idea/
+
+# Misc
+*.class
+*.lock
+*.log
+*.pyc
+*.pyo
+*.swp
+*.DS_Store
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Coverage
+coverage/
+
+# Packages
+packages/
+
+# Environment files
+.env
+.env.*
+
+# Others
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.flutter-plugins
+.flutter-plugins-dependencies

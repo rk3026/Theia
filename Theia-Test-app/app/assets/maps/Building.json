@@ -1,0 +1,15 @@
+[
+  {
+    "buildingId": "BLD_A",
+    "name": "School",
+    "floors": [1, 2, 3],
+    "destinations": [
+      { "id": "D1", "name": "Restroom 1", "floor": 1, "type": "Restroom", "keywords": ["restroom one"] },
+      { "id": "D2", "name": "Library", "floor": 1, "type": "Educational", "keywords": ["books", "study", "library"] },
+      { "id": "D3", "name": "Classroom 101", "floor": 1, "type": "Classroom", "keywords": ["one hundred and one", "one zero one", "one oh one"] },
+      { "id": "D4", "name": "Cafeteria", "floor": 1, "type": "Food", "keywords": ["food", "lunch", "snack", "cafeteria"] },
+      { "id": "D5", "name": "Classroom 304", "floor": 3, "type": "Classroom", "keywords": ["three hundred and four", "three oh four", "three zero four"] },
+      { "id": "D6", "name": "Restroom 3", "floor": 3, "type": "Restroom", "keywords": ["restroom three"] }
+    ]
+  }
+]

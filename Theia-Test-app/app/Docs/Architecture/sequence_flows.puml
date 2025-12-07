@@ -1,0 +1,40 @@
+@startuml sequence_flows
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+actor Stevie
+actor Maria
+participant TheiaApp
+participant HomeScreen
+participant RouteSelectScreen
+participant NavigationScreen
+participant EmergencyScreen
+participant MultiFingerGestureDetector as MFGD
+
+== Scenario 1: Classroom Navigation ==
+Stevie -> TheiaApp : launch()
+TheiaApp -> HomeScreen : show()
+Stevie -> HomeScreen : select destination (voice/touch)
+HomeScreen -> RouteSelectScreen : navigate(destination)
+Stevie -> RouteSelectScreen : select route
+RouteSelectScreen -> NavigationScreen : start(route)
+NavigationScreen -> Stevie : spoken guidance (step-by-step)
+Stevie -> MFGD : 3-finger triple tap (optional)
+MFGD -> EmergencyScreen : activate()
+
+== Scenario 2: Caretaker Configuration ==
+Maria -> TheiaApp : open caretaker mode (future)
+note over Maria, TheiaApp
+Caretaker configuration planned per Docs; 
+not yet implemented in current lib/main.dart
+end note
+
+== Scenario 3: Emergency Fall Detection ==
+Stevie -> NavigationScreen : navigating
+Stevie -> MFGD : 3-finger triple tap
+MFGD -> EmergencyScreen : show countdown
+EmergencyScreen -> Stevie : prompt/cancel
+Stevie -> EmergencyScreen : double tap cancel
+EmergencyScreen -> NavigationScreen : return via onReturn
+
+@enduml

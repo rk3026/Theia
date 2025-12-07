@@ -1,0 +1,247 @@
+@startuml classes
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+package ui {
+  class TheiaApp {
+    +mapState: MapState
+    +build(context)
+  }
+  class BuildingSelectScreen {
+    +mapState: MapState
+    +isLoading: bool
+    +loadError: String?
+    +onBuildingChosen(id)
+    +_announceScreen(context, msg)
+    +setByVoice()
+    +setByTouch()
+  }
+  class StartSelectScreen {
+    +mapState: MapState
+    +destinations: List<Destination>
+    +onStartLocationChosen(destinationId)
+    +_announceScreen(context, msg)
+    +setByVoice()
+    +setByTouch()
+  }
+  class HomeScreen {
+    +mapState: MapState
+    +_destinations: List<String>
+    +_announceScreen(context, msg)
+    +setDestinationByVoice()
+    +setDestinationByTouch()
+  }
+  class SettingsScreen {
+    +openCaretakerMode()
+    +setTtsVolume(value)
+    +toggleHaptics(enabled)
+    +setAvoidStairs(enabled)
+    +openEmergencyContacts()
+    +openFavorites()
+  }
+  class EmergencyContactsScreen {
+    +listContacts()
+    +addContact(contact)
+    +editContact(contact)
+    +deleteContact(id)
+    +setPrimary(id)
+  }
+  class FavoritesScreen {
+    +listFavorites()
+    +addFavorite(dest)
+    +editFavorite(dest)
+    +deleteFavorite(id)
+    +reorderFavorites(order)
+  }
+  class RouteSelectScreen {
+    +destination: String
+    +mapState: MapState
+    +_routes: List<Map>
+    +_announceScreen(context, msg)
+    +calculateAccessibleRoute()
+  }
+  class NavigationScreen {
+    +destination: String
+    +route: String
+    +_announceScreen(context, msg)
+    +provideGuidance()
+    +warnObstacles()
+    +readCurrentLocation()
+  }
+  class EmergencyScreen {
+    +previousScreen: String
+    +onReturn: VoidCallback
+    -_currentPhase: int
+    -_countdown: int
+    -_waitTimer: Timer
+    -_phase1InitialPrompt()
+    -_phase2PhoneLocator()
+    -_phase3ContactEmergency()
+    -_handleVoiceResponse(text)
+    +_cancelEmergency()
+  }
+  class MultiFingerGestureDetector {
+    +onTwoFingerDoubleTap: VoidCallback?
+    +onThreeFingerTripleTap: VoidCallback?
+    -_tapCount: int
+    -_fingerCount: int
+    -_tapTimer: Timer?
+  }
+}
+
+package services {
+  class MapLoaderService {
+    +loadBuildingList(): Future<List<Building>>
+    +loadBuildingMap(buildingId): Future<MapData>
+    +getDestinations(buildingId): List<Destination>
+    +resolvePath(buildingId, fromId, toId): PathInstructions
+    +clearCache()
+    +peekCached(buildingId): MapData?
+    -_cache: Map<String, MapData>
+  }
+  class VoiceService {
+    +init()
+    +speak(message)
+    +startListening()
+    +stopListening()
+    +resetRecognizer()
+    -_ttsQueue: List<String>
+    -_isSpeaking: bool
+    -_processTtsQueue()
+  }
+  class PreferencesService {
+    +loadPreferences()
+    +savePreferences(prefs)
+    +getTtsVolume(): double
+    +setTtsVolume(value)
+    +getHapticsEnabled(): bool
+    +setHapticsEnabled(enabled)
+    +getAvoidStairs(): bool
+    +setAvoidStairs(enabled)
+  }
+  class FallDetectionService {
+    +monitorFalls(): Stream
+    +detectFall(event): bool
+    +triggerEmergency()
+  }
+  class PhoneLocatorService {
+    +startBeeping()
+    +stopBeeping()
+    +isBeeping(): bool
+  }
+  class EmergencyService {
+    +callEmergencyContact(phone)
+    +sendEmergencySMS(phone, msg)
+    +getPrimaryContact()
+  }
+  class StorageService {
+    +saveEmergencyContact(contact)
+    +getEmergencyContacts()
+    +getPrimaryContact()
+    +savePreferences(prefs)
+    +getPreferences()
+    +saveFavorite(dest)
+    +getFavorites()
+    +saveLastBuilding(buildingId)
+    +getLastBuilding(): String?
+    +saveLastStart(buildingId, destinationId)
+    +getLastStart(buildingId): String?
+  }
+  class SensorService <<stub>> {
+    +startMonitoring()
+    +stopMonitoring()
+  }
+  class NotificationService <<stub>> {
+    +showNotification()
+  }
+  class TraceService <<stub>> {
+    +mapTraceLinks()
+  }
+}
+
+package models {
+  class Building {
+    +buildingId: String
+    +name: String
+    +floors: List<int>
+    +destinations: List<Destination>
+  }
+  class Destination {
+    +id: String
+    +name: String
+    +floor: int
+    +type: String
+    +keywords: List<String>
+  }
+  class MapData {
+    +mapID: String
+    +destinations: List<Destination>
+    +paths: Map<String, PathInstructions>
+  }
+  class PathInstructions {
+    +pathType: String
+    +estimatedTimeMin: int
+    +instructions: List<String>
+  }
+  class EmergencyContact {
+    +id: String
+    +name: String
+    +phoneNumber: String
+    +isPrimary: bool
+    +relationship: String
+  }
+}
+
+package state {
+  class MapState {
+    +buildingCatalog: List<Building>
+    +currentBuilding: Building?
+    +currentStart: Destination?
+    +currentMap: MapData?
+    +isBusy: bool
+    +lastError: String?
+    +initialize(): Future<void>
+    +selectBuilding(buildingId): Future<void>
+    +selectStart(destinationId)
+    +resolvePath(fromId, toId): PathInstructions?
+    -_loader: MapLoaderService
+    -_storage: StorageService
+  }
+}
+
+TheiaApp --> HomeScreen
+TheiaApp --> BuildingSelectScreen : first-run / change building
+TheiaApp ..> MapState : registers provider
+BuildingSelectScreen --> StartSelectScreen : choose starting location
+BuildingSelectScreen ..> VoiceService : uses
+BuildingSelectScreen ..> MapState : observes selections
+StartSelectScreen ..> VoiceService : uses
+StartSelectScreen ..> MapState : observes selections
+StartSelectScreen --> HomeScreen : after start chosen
+HomeScreen --> RouteSelectScreen : select destination
+HomeScreen --> SettingsScreen : open settings
+HomeScreen ..> VoiceService : uses
+HomeScreen ..> MapState : reads destinations
+SettingsScreen --> EmergencyContactsScreen : manage contacts
+SettingsScreen --> FavoritesScreen : manage favorites
+SettingsScreen ..> PreferencesService : uses
+RouteSelectScreen --> NavigationScreen : start route
+RouteSelectScreen ..> VoiceService : uses
+RouteSelectScreen ..> MapState : resolves path
+HomeScreen ..> MultiFingerGestureDetector
+RouteSelectScreen ..> MultiFingerGestureDetector
+NavigationScreen ..> MultiFingerGestureDetector
+NavigationScreen --> EmergencyScreen : triple tap
+NavigationScreen ..> VoiceService : uses
+EmergencyScreen --> NavigationScreen : onReturn()
+EmergencyScreen ..> VoiceService : uses
+EmergencyScreen ..> FallDetectionService : monitors
+EmergencyScreen ..> PhoneLocatorService : beeps
+EmergencyScreen ..> EmergencyService : contacts
+EmergencyService ..> StorageService : retrieves contacts
+StorageService ..> EmergencyContact : stores
+PreferencesService ..> StorageService : persists
+MapState ..> MapLoaderService : loads data
+MapState ..> StorageService : persists selections
+
+@enduml

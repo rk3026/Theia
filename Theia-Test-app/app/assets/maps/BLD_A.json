@@ -1,0 +1,322 @@
+{
+  "mapID": "BLD_A",
+  "comment": "Pre-calculated paths for all 30 permutations of the 6 destinations.",
+  "paths": {
+    "D1 D2": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 1,
+      "instructions": [
+        "Turn left",
+        "Walk forward 20 paces",
+        "Turn left"
+      ]
+    },
+    "D1 D3": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 2,
+      "instructions": [
+        "Turn right",
+        "Walk forward 40 paces",
+        "Turn right"
+      ]
+    },
+    "D1 D4": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 3,
+      "instructions": [
+        "Turn right",
+        "Walk forward 60 paces",
+        "Turn right"
+      ]
+    },
+    "D1 D5": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 5,
+      "instructions": [
+        "Turn right",
+        "Walk forward 70 paces",
+        "Take elevator up",
+        "Turn left",
+        "Walk forward 15 paces",
+        "Turn right"
+      ]
+    },
+    "D1 D6": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 5,
+      "instructions": [
+        "Turn right",
+        "Walk forward 70 paces",
+        "Take elevator up",
+        "Turn right",
+        "Walk forward 10 paces",
+        "Turn left"
+      ]
+    },
+    "D2 D1": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 1,
+      "instructions": [
+        "Turn right",
+        "Walk forward 20 paces",
+        "Turn right"
+      ]
+    },
+    "D2 D3": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 1,
+      "instructions": [
+        "Turn left",
+        "Walk forward 20 paces",
+        "Turn right"
+      ]
+    },
+    "D2 D4": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 2,
+      "instructions": [
+        "Turn left",
+        "Walk forward 40 paces",
+        "Turn right"
+      ]
+    },
+    "D2 D5": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 4,
+      "instructions": [
+        "Turn left",
+        "Walk forward 50 paces",
+        "Take elevator up",
+        "Turn left",
+        "Walk forward 15 paces",
+        "Turn right"
+      ]
+    },
+    "D2 D6": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 4,
+      "instructions": [
+        "Turn left",
+        "Walk forward 50 paces",
+        "Take elevator up",
+        "Turn right",
+        "Walk forward 10 paces",
+        "Turn left"
+      ]
+    },
+    "D3 D1": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 2,
+      "instructions": [
+        "Turn left",
+        "Walk forward 40 paces",
+        "Turn left"
+      ]
+    },
+    "D3 D2": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 1,
+      "instructions": [
+        "Turn left",
+        "Walk forward",
+        "Turn left"
+      ]
+    },
+    "D3 D4": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 1,
+      "instructions": [
+        "Turn right",
+        "Walk forward 20 paces",
+        "Turn right"
+      ]
+    },
+    "D3 D5": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 4,
+      "instructions": [
+        "Turn right",
+        "Walk forward 30 paces",
+        "Take elevator up",
+        "Turn left",
+        "Walk forward 15 paces",
+        "Turn right"
+      ]
+    },
+    "D3 D6": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 4,
+      "instructions": [
+        "Turn right",
+        "Walk forward 30 paces",
+        "Take elevator up",
+        "Turn right",
+        "Walk forward 10 paces",
+        "Turn left"
+      ]
+    },
+    "D4 D1": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 3,
+      "instructions": [
+        "Turn left",
+        "Walk forward 60 paces",
+        "Turn left"
+      ]
+    },
+    "D4 D2": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 2,
+      "instructions": [
+        "Turn left",
+        "Walk forward 40 paces",
+        "Turn right"
+      ]
+    },
+    "D4 D3": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 1,
+      "instructions": [
+        "Turn left",
+        "Walk forward 20 paces",
+        "Turn left"
+      ]
+    },
+    "D4 D5": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 4,
+      "instructions": [
+        "Turn left",
+        "Walk forward",
+        "Take elevator up",
+        "Turn left",
+        "Walk forward 15 paces",
+        "Turn right"
+      ]
+    },
+    "D4 D6": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 4,
+      "instructions": [
+        "Turn left",
+        "Walk forward",
+        "Take elevator up",
+        "Turn right",
+        "Walk forward 10 paces",
+        "Turn left"
+      ]
+    },
+    "D5 D1": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 5,
+      "instructions": [
+        "Turn left",
+        "Walk forward 15 paces",
+        "Take elevator down",
+        "Turn left",
+        "Walk forward 70 paces",
+        "Turn left"
+      ]
+    },
+    "D5 D2": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 4,
+      "instructions": [
+        "Turn left",
+        "Walk forward 15 paces",
+        "Take elevator down",
+        "Turn right",
+        "Walk forward 50 paces",
+        "Turn right"
+      ]
+    },
+    "D5 D3": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 4,
+      "instructions": [
+        "Turn left",
+        "Walk forward 15 paces",
+        "Take elevator down",
+        "Turn left",
+        "Walk forward 30 paces",
+        "Turn left"
+      ]
+    },
+    "D5 D4": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 4,
+      "instructions": [
+        "Turn left",
+        "Walk forward 15 paces",
+        "Take elevator down",
+        "Turn right",
+        "Walk forward"
+      ]
+    },
+    "D5 D6": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 1,
+      "instructions": [
+        "Turn left",
+        "Walk forward 25 paces",
+        "Turn left"
+      ]
+    },
+    "D6 D1": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 5,
+      "instructions": [
+        "Turn right",
+        "Walk forward 10 paces",
+        "Take elevator down",
+        "Turn left",
+        "Walk forward 70 paces",
+        "Turn left"
+      ]
+    },
+    "D6 D2": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 4,
+      "instructions": [
+        "Turn right",
+        "Walk forward 10 paces",
+        "Take elevator down",
+        "Turn right",
+        "Walk forward 50 paces",
+        "Turn right"
+      ]
+    },
+    "D6 D3": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 4,
+      "instructions": [
+        "Turn right",
+        "Walk forward 10 paces",
+        "Take elevator down",
+        "Turn left",
+        "Walk forward 30 paces",
+        "Turn left"
+      ]
+    },
+    "D6 D4": {
+      "pathType": "Elevator",
+      "estimatedTimeMin": 4,
+      "instructions": [
+        "Turn right",
+        "Walk forward 10 paces",
+        "Take elevator down",
+        "Turn right",
+        "Walk forward"
+      ]
+    },
+    "D6 D5": {
+      "pathType": "Walking",
+      "estimatedTimeMin": 1,
+      "instructions": [
+        "Turn right",
+        "Walk forward 25 paces",
+        "Turn right"
+      ]
+    }
+  }
+}

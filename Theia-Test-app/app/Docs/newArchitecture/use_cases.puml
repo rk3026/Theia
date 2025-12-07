@@ -1,0 +1,120 @@
+@startuml use_cases
+skinparam shadowing false
+skinparam defaultFontName Arial
+left to right direction
+
+actor "Visually Impaired User" as VIU
+actor Caregiver as CG
+actor "Emergency Services" as EMS
+
+rectangle THEIA {
+  ' Navigation-related use cases
+  usecase "Set Destination (Voice)" as UC_VOICE
+  usecase "Set Destination (Touch)" as UC_TOUCH
+  usecase "Select Building (Voice)" as UC_BUILD_VOICE
+  usecase "Select Building (Touch)" as UC_BUILD_TOUCH
+  usecase "Select Start Location (Voice)" as UC_START_VOICE
+  usecase "Select Start Location (Touch)" as UC_START_TOUCH
+  usecase "Persist Last Building/Start" as UC_PERSIST_START
+  usecase "Load Map Assets" as UC_LOAD_MAPS
+  usecase "Calculate Accessible Route" as UC_ROUTE
+  usecase "Receive Step-by-Step Guidance" as UC_GUIDE
+  usecase "Warn About Obstacles/Stairs" as UC_WARN
+  usecase "Read Current Location" as UC_READLOC
+
+  ' Caregiver configuration use cases
+  usecase "Enter Caregiver Mode" as UC_CG_MODE
+  usecase "Configure Audio Preferences" as UC_CFG_AUDIO
+  usecase "Set Accessibility Route Preferences" as UC_CFG_ROUTE
+  usecase "Manage Emergency Contacts" as UC_CFG_CONTACTS
+  usecase "Manage Favorites / Frequent Destinations" as UC_CFG_FAVS
+
+  ' Emergency / safety use cases
+  usecase "Activate Emergency Mode" as UC_EMERGENCY
+  usecase "Phase 1: Prompt User 'Are you okay?'" as UC_PROMPT
+  usecase "Phase 2: Locate Phone (Beep)" as UC_LOCATE
+  usecase "Phase 3: Call Emergency Contact" as UC_CALL_CONTACT
+  usecase "Phase 3: Send Emergency SMS" as UC_SMS_CONTACT
+  usecase "Phase 3: Fallback to 911" as UC_911
+  usecase "Configure Emergency Contacts" as UC_CFG_EMERGENCY
+}
+
+' Primary actor mappings
+VIU -- UC_VOICE
+VIU -- UC_TOUCH
+VIU -- UC_BUILD_VOICE
+VIU -- UC_BUILD_TOUCH
+VIU -- UC_START_VOICE
+VIU -- UC_START_TOUCH
+VIU -- UC_GUIDE
+VIU -- UC_WARN
+VIU -- UC_READLOC
+VIU -- UC_EMERGENCY
+
+CG  -- UC_CG_MODE
+CG  -- UC_CFG_AUDIO
+CG  -- UC_CFG_ROUTE
+CG  -- UC_CFG_CONTACTS
+CG  -- UC_CFG_FAVS
+CG  -- UC_CFG_EMERGENCY
+CG  -- UC_SMS_CONTACT
+
+EMS -- UC_911
+
+' Navigation relationships
+UC_ROUTE ..> UC_VOICE : <<include>>
+UC_ROUTE ..> UC_TOUCH : <<include>>
+UC_ROUTE ..> UC_START_VOICE : <<include>>
+UC_ROUTE ..> UC_START_TOUCH : <<include>>
+UC_GUIDE ..> UC_ROUTE : <<include>>
+UC_WARN  ..> UC_ROUTE : <<include>>
+UC_START_VOICE ..> UC_BUILD_VOICE : <<include>>
+UC_START_TOUCH ..> UC_BUILD_TOUCH : <<include>>
+UC_START_VOICE ..> UC_PERSIST_START : <<include>>
+UC_START_TOUCH ..> UC_PERSIST_START : <<include>>
+UC_BUILD_VOICE ..> UC_LOAD_MAPS : <<include>>
+UC_BUILD_TOUCH ..> UC_LOAD_MAPS : <<include>>
+UC_PERSIST_START ..> UC_LOAD_MAPS : <<extend>> (cache hydrate)
+
+' Emergency sequence relationships
+UC_EMERGENCY ..> UC_PROMPT : <<include>>
+UC_LOCATE ..> UC_PROMPT : <<extend>> (no response after 10s)
+UC_CALL_CONTACT ..> UC_LOCATE : <<extend>> (no response after phone locator)
+UC_SMS_CONTACT ..> UC_CALL_CONTACT : <<include>>
+UC_911 ..> UC_CALL_CONTACT : <<extend>> (no emergency contact configured)
+
+note right of THEIA
+Navigation (Scenario 1):
+- User selects building (voice or touch)
+- JSON map assets load and cache
+- User selects starting location, persisted for fast return
+- User sets destination by voice or touch
+- System computes accessible route
+- Provides spoken guidance and hazard warnings
+- Supports manual location readback
+
+Caregiver Configuration (Scenario 2):
+- Caregiver enters mode to configure preferences
+- Audio (step-based), route options (avoid stairs), contacts, favorites
+- Configure emergency contacts with primary designation
+
+Emergency (Scenario 3 - 4 Phase Flow):
+Phase 1: Prompt "Are you okay?" (10s countdown)
+  - User responds "yes" → cancel emergency
+  - User responds "no" → skip to phase 3
+  - User cancels (double tap) → cancel emergency
+  - No response → proceed to phase 2
+
+Phase 2: Phone Locator (continuous beeping)
+  - User says "found" → cancel emergency
+  - No response → proceed to phase 3
+
+Phase 3: Emergency Contact
+  - Call primary emergency contact
+  - Send SMS to emergency contact
+  - If no contact configured, fall back to 911
+
+Phase 4: Return to navigation after call completes
+end note
+
+@enduml

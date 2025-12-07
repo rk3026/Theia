@@ -1,0 +1,154 @@
+@startuml sequences
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+actor "Visually Impaired User" as VIU
+actor Caregiver as CG
+actor "Emergency Services" as EMS
+participant TheiaApp
+participant MapState
+participant MapLoaderService
+participant StorageService
+participant BuildingSelectScreen
+participant StartSelectScreen
+participant HomeScreen
+participant SettingsScreen
+participant EmergencyContactsScreen
+participant FavoritesScreen
+participant RouteSelectScreen
+participant NavigationScreen
+participant EmergencyScreen
+participant MultiFingerGestureDetector as MFGD
+
+== Scenario 1: Classroom Navigation ==
+VIU -> TheiaApp : launch()
+TheiaApp -> MapState : initialize()
+MapState -> StorageService : getLastBuilding()
+StorageService --> MapState : null
+MapState -> MapLoaderService : loadBuildingList()
+MapLoaderService --> MapState : buildings
+TheiaApp -> BuildingSelectScreen : show()
+BuildingSelectScreen -> MapState : observeCatalog()
+VIU -> BuildingSelectScreen : UC_VOICE / UC_TOUCH (select building)
+BuildingSelectScreen -> MapState : selectBuilding("BLD_A")
+MapState -> MapLoaderService : loadBuildingMap("BLD_A")
+MapLoaderService --> MapState : mapData
+MapState -> StorageService : saveLastBuilding("BLD_A")
+BuildingSelectScreen -> StartSelectScreen : navigate()
+StartSelectScreen -> MapState : observeDestinations()
+MapState -> StorageService : getLastStart("BLD_A")
+StorageService --> MapState : null
+VIU -> StartSelectScreen : UC_VOICE / UC_TOUCH (select start)
+StartSelectScreen -> MapState : selectStart("S1")
+MapState -> StorageService : saveLastStart("BLD_A", "S1")
+StartSelectScreen -> HomeScreen : navigate()
+HomeScreen -> MapState : requestDestinations()
+MapState --> HomeScreen : destinations
+VIU -> HomeScreen : UC_VOICE / UC_TOUCH (set destination)
+HomeScreen -> RouteSelectScreen : navigate(destination)
+RouteSelectScreen -> MapState : resolvePath(startId, destId)
+MapState -> MapLoaderService : resolvePath("BLD_A", "S1", "D1")
+MapLoaderService --> MapState : path
+MapState --> RouteSelectScreen : path
+VIU -> RouteSelectScreen : select route (UC_ROUTE)
+RouteSelectScreen -> NavigationScreen : start(route)
+NavigationScreen -> VIU : UC_GUIDE (spoken guidance)
+NavigationScreen -> VIU : UC_WARN (obstacle/stair warnings)
+VIU -> NavigationScreen : UC_READLOC (manual read current location)
+VIU -> MFGD : triple tap (emergency)
+MFGD -> EmergencyScreen : activate()
+
+== Scenario 2: Caregiver Configuration ==
+CG -> HomeScreen : open settings
+HomeScreen -> SettingsScreen : navigate()
+CG -> SettingsScreen : UC_CFG_AUDIO (configure audio)
+CG -> SettingsScreen : UC_CFG_ROUTE (set route prefs)
+CG -> SettingsScreen : UC_CFG_CONTACTS (manage contacts)
+CG -> SettingsScreen : UC_CFG_FAVS (manage favorites)
+SettingsScreen -> EmergencyContactsScreen : open()
+SettingsScreen -> FavoritesScreen : open()
+note over CG, SettingsScreen
+Preferences include step-based instructions, volume,
+avoid stairs/trips, favorites & emergency contacts.
+end note
+
+== Scenario 3: Emergency Fall Detection ==
+
+' Phase 1: Initial Detection & Prompt
+VIU -> NavigationScreen : navigating
+NavigationScreen -> MFGD : gesture reminder banner
+VIU -> MFGD : triple tap
+MFGD -> EmergencyScreen : show countdown
+EmergencyScreen -> EmergencyScreen : _phase1InitialPrompt()
+EmergencyScreen -> VIU : UC_PROMPT ("Are you okay?")
+note right
+  10-second countdown with voice prompt
+  User can respond "yes" or "no" or cancel
+end note
+
+alt User responds "yes" within 10 seconds
+  VIU -> EmergencyScreen : voice "yes"
+  EmergencyScreen -> NavigationScreen : return via onReturn
+  note right : Cancel emergency, return to navigation
+  
+else User responds "no" within 10 seconds
+  VIU -> EmergencyScreen : voice "no"
+  EmergencyScreen -> EmergencyScreen : skip to _phase3ContactEmergency()
+  note right : Skip phone locator, go directly to emergency contact
+  
+else User cancels (double tap)
+  VIU -> EmergencyScreen : double tap
+  EmergencyScreen -> NavigationScreen : return via onReturn
+  note right : Cancel emergency, return to navigation
+  
+else No response after 10 seconds
+  EmergencyScreen -> EmergencyScreen : _phase2PhoneLocator()
+  note right : Proceed to phone locator phase
+end
+
+' Phase 2: Phone Locator
+EmergencyScreen -> PhoneLocatorService : startBeeping()
+PhoneLocatorService -> VIU : UC_LOCATE (beep sequence)
+note right
+  Continuous beeping until user finds phone
+  User can say "found" or wait for timeout
+end note
+
+alt User says "found" within timeout
+  VIU -> EmergencyScreen : voice "found"
+  EmergencyScreen -> PhoneLocatorService : stopBeeping()
+  EmergencyScreen -> NavigationScreen : return via onReturn
+  note right : Cancel emergency, return to navigation
+  
+else No response after phone locator timeout
+  EmergencyScreen -> PhoneLocatorService : stopBeeping()
+  EmergencyScreen -> EmergencyScreen : _phase3ContactEmergency()
+  note right : Proceed to emergency contact phase
+end
+
+' Phase 3: Emergency Contact
+EmergencyScreen -> EmergencyService : getPrimaryContact()
+EmergencyService -> StorageService : getPrimaryContact()
+StorageService -> EmergencyService : return EmergencyContact
+EmergencyService -> EmergencyScreen : return contact
+
+alt Emergency contact configured
+  EmergencyScreen -> EmergencyScreen : UC_PROMPT ("Calling [Name]")
+  EmergencyScreen -> EmergencyService : callEmergencyContact(phoneNumber)
+  EmergencyService -> VIU : place call
+  EmergencyScreen -> EmergencyService : sendEmergencySMS(phoneNumber, message)
+  EmergencyService -> CG : UC_NOTIFY_CG (SMS: "Emergency alert from [User]")
+  note right : Call emergency contact and send SMS
+  
+else No emergency contact configured
+  EmergencyScreen -> EmergencyScreen : UC_PROMPT ("Calling 911")
+  EmergencyScreen -> EmergencyService : callEmergencyContact("911")
+  EmergencyService -> EMS : UC_911 (place call to 911)
+  note right : Fall back to 911 if no contact configured
+end
+
+' Phase 4: Completed
+EmergencyScreen -> NavigationScreen : return via onReturn after call completes
+note right : Emergency sequence complete, return to navigation
+
+@enduml
