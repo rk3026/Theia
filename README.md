@@ -6,21 +6,21 @@ This repository contains all documentation and deliverables related to **THEIA**
 ## Repository Contents
 
 ### Phase 1 Deliverables
-- **LagZilla-Meeting-Notes.md** – Detailed meeting notes and progress logs for Phase 1.
-- **LagZilla-THEIA-Presentation.pdf** – Phase 1 presentation slides outlining initial project scenarios and prototype plans.
-- **LagZilla-THEIA-User-Manual.pdf** – User guide for interacting with the Theia app through voice and touch.
-- **LagZilla-THEIA-WRS.pdf** – The complete *Requirements Specification (WRS)* for Phase 1.
-- **ProjectPlan.pdf** – Initial project management and organizational structure documentation.
+- [LagZilla-Meeting-Notes.md](Phase-1/LagZilla-Meeting-Notes.md)– Detailed meeting notes and progress logs for Phase 1.
+- [LagZilla-THEIA-Presentation.pdf](Phase-1/LagZilla-THEIA-Presentation.pdf) – Phase 1 presentation slides outlining initial project scenarios and prototype plans.
+- [LagZilla-THEIA-User-Manual.pdf](Phase-1/LagZilla-THEIA-User-Manual.pdf) – User guide for interacting with the Theia app through voice and touch.
+- [LagZilla-THEIA-WRS.pdf](Phase-1/LagZilla-THEIA-WRS.pdf) – The complete *Requirements Specification (WRS)* for Phase 1.
+- [ProjectPlan.pdf](Phase-1/LagZilla-THEIA-Project-Plan.pdf) – Initial project management and organizational structure documentation.
 
 ### Phase 2 Deliverables
-- **LagZilla-Meeting-Notes-Phase2.md** – Meeting notes and progress logs for Phase 2. Inside Prelim-2-Docs/ folder.
-- **LagZilla-THEIA-Presentation-Phase2.pdf** – Final presentation slides including functional prototype details.
-- **LagZilla-THEIA-User-Manual-Phase2.pdf** – Updated user guide reflecting new features and refinements.
-- **LagZilla-THEIA-WRS-Phase2.pdf** – Updated *Requirements Specification (WRS)* for the final product.
-- **LagZilla-THEIA-Vision-Document.pdf** – Vision document describing the overall product goals and direction.
-- **LagZilla-THEIA-Process-Specification.pdf** - Process specification documenting methods, workflows, and practices.
-- **LagZilla-THEIA-ProjectPlan-Phase2.pdf** – Updated project management and organizational structure for Phase 2.
-- **THEIA-prototype/** – Folder containing the functional prototype implementation.
+- [LagZilla-Meeting-Notes-Phase2.md](Phase-2/Prelim-2-Docs/LagZilla-Meeting-Notes-PhaseII.pdf) – Meeting notes and progress logs for Phase 2. Inside Prelim-2-Docs/ folder.
+- [LagZilla-THEIA-Presentation-Phase2.pdf](Phase-2/LagZilla-THEIA-Presentation-Phase2.pdf) – Final presentation slides including functional prototype details.
+- [LagZilla-THEIA-User-Manual-Phase2.pdf](Phase-2/LagZilla-THEIA-User-Manual-Phase2.pdf) – Updated user guide reflecting new features and refinements.
+- [LagZilla-THEIA-WRS-Phase2.pdf](Phase-2/LagZilla-THEIA-WRS-Phase2.pdf) – Updated *Requirements Specification (WRS)* for the final product.
+- [LagZilla-THEIA-Vision-Document.pdf](Phase-2/LagZilla-THEIA-Vision-Document.pdf) – Vision document describing the overall product goals and direction.
+- [LagZilla-THEIA-Process-Specification.pdf](Phase-2/LagZilla-THEIA-Process-Specification.pdf) - Process specification documenting methods, workflows, and practices.
+- [LagZilla-THEIA-ProjectPlan-Phase2.pdf](Phase-2/LagZilla-THEIA-ProjectPlan-Phase2.pdf) – Updated project management and organizational structure for Phase 2.
+- [THEIA-prototype/](Phase-2/THEIA-Prototype) – Folder containing the functional prototype implementation.
 
 ## Cloud Collaboration
 OneDrive/Google Drive was used to host writings for collaboration, with the link to the cloud location below.
